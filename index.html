@@ -417,10 +417,24 @@ function normalizeElim(eg) {
 
 // GAS
 async function callGAS(fn, ...args) {
-  const resp = await fetch(GAS_URL, { method:'POST', body: JSON.stringify({fn, args, auth: STATE.auth}), redirect:'follow' });
-  const data = await resp.json();
-  if (data.error) throw new Error(data.error);
-  return data.result;
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 28000);
+  try {
+    const resp = await fetch(GAS_URL, {
+      method: 'POST',
+      body: JSON.stringify({fn, args, auth: STATE.auth}),
+      redirect: 'follow',
+      signal: controller.signal
+    });
+    const data = await resp.json();
+    if (data.error) throw new Error(data.error);
+    return data.result;
+  } catch(e) {
+    if (e.name === 'AbortError') throw new Error('Request timed out — tap the refresh button to try again');
+    throw e;
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
 // INIT
@@ -432,10 +446,11 @@ window.addEventListener('load', () => {
     if (a && u) {
       STATE.auth = JSON.parse(a);
       STATE.user = JSON.parse(u);
-      showApp();
+      restoreStateCache(); // show cached data instantly
+      showApp();           // render with cached data right away
+      // then fetch fresh in background
       loadAppState().catch(e => {
         if (e.message && e.message.toLowerCase().includes('auth')) {
-          // Session rejected — go back to PIN screen with name pre-selected
           try {
             const savedUser = STATE.user;
             localStorage.removeItem('dwts_auth');
@@ -446,7 +461,7 @@ window.addEventListener('load', () => {
             if (savedUser) selectPlayer(savedUser.name, savedUser.displayName);
           } catch(eInner) { location.reload(); }
         } else {
-          toast('Refresh error: ' + e.message, 'error');
+          toast('Refresh error — ' + e.message, 'error');
         }
       });
     }
@@ -532,13 +547,16 @@ async function hardRefresh() {
 }
 
 function logout() {
-  try { localStorage.removeItem('dwts_auth'); localStorage.removeItem('dwts_user'); } catch(e) {}
+  try {
+    localStorage.removeItem('dwts_auth');
+    localStorage.removeItem('dwts_user');
+    localStorage.removeItem('dwts_state_cache');
+  } catch(e) {}
   location.reload();
 }
 
 // APP STATE
-async function loadAppState() {
-  const data = await callGAS('getAppState');
+function applyStateData(data) {
   STATE.weekData        = data.weekData;
   STATE.season          = data.season;
   STATE.seasonStandings = data.seasonStandings || [];
@@ -546,6 +564,31 @@ async function loadAppState() {
   STATE.allCouples      = data.allCouples || [];
   STATE.eliminatedAll   = data.eliminatedAll || [];
   STATE.roster          = data.roster || [];
+}
+
+function restoreStateCache() {
+  try {
+    const c = localStorage.getItem('dwts_state_cache');
+    if (c) { applyStateData(JSON.parse(c)); return true; }
+  } catch(e) {}
+  return false;
+}
+
+function saveStateCache() {
+  try {
+    localStorage.setItem('dwts_state_cache', JSON.stringify({
+      weekData: STATE.weekData, season: STATE.season,
+      seasonStandings: STATE.seasonStandings, allWeeks: STATE.allWeeks,
+      allCouples: STATE.allCouples, eliminatedAll: STATE.eliminatedAll,
+      roster: STATE.roster
+    }));
+  } catch(e) {}
+}
+
+async function loadAppState() {
+  const data = await callGAS('getAppState');
+  applyStateData(data);
+  saveStateCache();
   if (_currentView) renderView(_currentView);
 }
 
