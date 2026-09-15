@@ -140,15 +140,25 @@
 
   /* Tables */
   .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%; }
-  .standings-table { width: 100%; border-collapse: collapse; min-width: 240px; }
-  .standings-table th { background: var(--surface2); padding: 14px 12px; text-align: left; font-size: 0.88em; color: var(--muted); font-weight: 700; border-bottom: 1px solid var(--border); }
-  .standings-table td { padding: 15px 12px; border-bottom: 1px solid rgba(74,0,128,0.3); font-size: 1em; }
-  .standings-table tr:last-child td { border-bottom: none; }
-  .rank-badge { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%; font-weight: 800; font-size: 0.9em; }
+  .rank-badge { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%; font-weight: 800; font-size: 0.9em; flex-shrink: 0; }
   .rank-1 { background: var(--gold); color: #000; }
   .rank-2 { background: #c0c0c0; color: #000; }
   .rank-3 { background: #cd7f32; color: #fff; }
   .rank-n { background: var(--surface2); color: var(--muted); }
+
+  /* Standings rows */
+  .standings-row { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 10px; }
+  .standings-row-header { display: flex; align-items: center; gap: 12px; padding: 16px 18px; background: var(--surface2); cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; -webkit-user-select: none; user-select: none; }
+  .standings-row-header:active { background: #280050; }
+  .standings-name { flex: 1; font-weight: 700; font-size: 1.05em; }
+  .standings-pts { flex-shrink: 0; font-size: 1.2em; font-weight: 800; color: var(--accent); }
+  .standings-arrow { color: var(--muted); font-size: 0.9em; transition: transform 0.2s; flex-shrink: 0; }
+  .standings-detail { padding: 18px 20px; border-top: 1px solid var(--border); display: none; }
+  .standings-detail.open { display: block; }
+  .breakdown-section { margin-bottom: 16px; }
+  .breakdown-section:last-child { margin-bottom: 0; }
+  .breakdown-header { font-size: 0.78em; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  .elim-couple { text-decoration: line-through; opacity: 0.45; }
 
   /* Score cards */
   .score-card { display: flex; justify-content: space-between; align-items: center; gap: 14px; background: var(--surface2); border-radius: 14px; padding: 18px 20px; margin-bottom: 10px; }
@@ -653,14 +663,60 @@ function renderStandings() {
   const standings = STATE.seasonStandings || [];
   const el = document.getElementById('standings-content');
   if (!standings.length) { el.innerHTML = '<div class="muted small">No scores yet.</div>'; return; }
-  el.innerHTML = `<div class="table-scroll"><table class="standings-table"><thead><tr><th>Rank</th><th>Player</th><th>Total</th><th>Wks</th></tr></thead><tbody>
-    ${standings.map((s,i)=>`<tr>
-      <td><span class="rank-badge ${rankClass(i+1)}">${i+1}</span></td>
-      <td class="bold">${esc(s.displayName)}</td>
-      <td class="accent bold">${s.totalPoints}</td>
-      <td class="muted small">${s.weekCount}</td>
-    </tr>`).join('')}
-  </tbody></table></div>`;
+  const elim = STATE.eliminatedAll || [];
+
+  el.innerHTML = standings.map((s, i) => {
+    const bd = s.breakdown || {};
+    const rosterScores = s.rosterScores || {};
+    const roster = s.roster || [];
+    const hasScores = Object.keys(rosterScores).length > 0;
+    const rosterTotal = Object.values(rosterScores).reduce((a, b) => a + b, 0);
+
+    const rosterRows = roster.map(c => {
+      const score = rosterScores[c];
+      const isElim = elim.includes(c);
+      return `<div class="brkdwn-row">
+        <span class="brkdwn-key${isElim ? ' elim-couple' : ''}">${esc(c)}</span>
+        <span class="${isElim ? 'muted' : ''}">${score != null ? score : '—'}</span>
+      </div>`;
+    }).join('');
+
+    return `<div class="standings-row">
+      <div class="standings-row-header" onclick="toggleStandingsRow(this)">
+        <span class="rank-badge ${rankClass(i+1)}">${i+1}</span>
+        <span class="standings-name">${esc(s.displayName)}</span>
+        <span class="standings-pts">${s.totalPoints}</span>
+        <span class="standings-arrow">▾</span>
+      </div>
+      <div class="standings-detail">
+        ${roster.length ? `<div class="breakdown-section">
+          <div class="breakdown-header">Judges' Scores</div>
+          ${rosterRows}
+          ${hasScores ? `<div class="brkdwn-row bold" style="margin-top:6px;padding-top:6px;border-top:1px solid var(--border);">
+            <span class="brkdwn-key">Roster total</span><span>${rosterTotal}</span>
+          </div>` : ''}
+        </div>` : ''}
+        <div class="breakdown-section">
+          <div class="breakdown-header">Bonus Points</div>
+          <div class="brkdwn-row"><span class="brkdwn-key">Elimination Guess</span><span class="${(bd.elimGuess||0)>0?'success':'muted'}">${(bd.elimGuess||0)>0?'+'+bd.elimGuess:'—'}</span></div>
+          <div class="brkdwn-row"><span class="brkdwn-key">Survived Elimination</span><span class="${(bd.survivalBonus||0)>0?'success':'muted'}">${(bd.survivalBonus||0)>0?'+'+bd.survivalBonus:'—'}</span></div>
+          <div class="brkdwn-row"><span class="brkdwn-key">Leaderboard Bonus</span><span class="${(bd.lbCouple||0)>0?'success':'muted'}">${(bd.lbCouple||0)>0?'+'+bd.lbCouple:'—'}</span></div>
+          <div class="brkdwn-row"><span class="brkdwn-key">Leaderboard Guess</span><span class="${(bd.lbGuess||0)>0?'success':'muted'}">${(bd.lbGuess||0)>0?'+'+bd.lbGuess:'—'}</span></div>
+          <div class="brkdwn-row bold" style="margin-top:6px;padding-top:6px;border-top:1px solid var(--border);">
+            <span>Total</span><span class="accent">${s.totalPoints}</span>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleStandingsRow(header) {
+  const detail = header.nextElementSibling;
+  const arrow  = header.querySelector('.standings-arrow');
+  if (!detail) return;
+  const open = detail.classList.toggle('open');
+  if (arrow) arrow.style.transform = open ? 'rotate(180deg)' : '';
 }
 
 // HISTORY
