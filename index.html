@@ -548,26 +548,27 @@ function renderPicks() {
   } else if (isLocked) {
     html += `<div class="warn bold" style="margin-bottom:14px;">Picks are locked — episode has started!</div>`;
   } else {
-    const currentElims = normalizeElim(myPick ? myPick.eliminationGuess : null);
+    const currentElim = myPick ? (Array.isArray(myPick.eliminationGuess) ? myPick.eliminationGuess[0] : myPick.eliminationGuess) : '';
     const lbVal = myPick ? myPick.leaderboardGuess : '';
     html += `<div class="pick-row">
-      <label>Who will be eliminated? (select all you think)</label>
-      <div class="chip-grid" id="picks-elim-chips">
-        ${activeCouples.map(c => `<div class="chip${currentElims.includes(c)?' elim-on':''}" data-couple="${esc(c)}" onclick="this.classList.toggle('elim-on')">${esc(c)}</div>`).join('')}
-      </div>
+      <label>Who will be eliminated?</label>
+      <select class="input" id="elim-select">
+        <option value="">— Select couple —</option>
+        ${activeCouples.map(c => `<option value="${esc(c)}" ${c===currentElim?'selected':''}>${esc(c)}</option>`).join('')}
+      </select>
     </div>
     <div class="pick-row">
       <label>Who will be #1 on the leaderboard?</label>
       <select class="input" id="lb-select">
         <option value="">— Select couple —</option>
-        ${STATE.allCouples.map(c => { const d=STATE.eliminatedAll.includes(c); return `<option value="${esc(c)}" ${c===lbVal?'selected':''} ${d?'disabled':''}>${esc(c)}${d?' ✗':''}</option>`; }).join('')}
+        ${activeCouples.map(c => `<option value="${esc(c)}" ${c===lbVal?'selected':''}>${esc(c)}</option>`).join('')}
       </select>
     </div>
     <button class="btn btn-primary btn-full" onclick="submitPicks()" style="margin-top:6px;">
-      ${myPick && currentElims.length ? 'Update Picks' : 'Submit Picks'}
+      ${myPick && currentElim ? 'Update Picks' : 'Submit Picks'}
     </button>`;
-    if (myPick && currentElims.length) {
-      html += `<div class="small muted" style="margin-top:10px;">Current: <strong>${currentElims.map(esc).join(', ')}</strong> eliminated · <strong>${esc(myPick.leaderboardGuess)}</strong> #1</div>`;
+    if (myPick && currentElim) {
+      html += `<div class="small muted" style="margin-top:10px;">Current: <strong>${esc(currentElim)}</strong> eliminated · <strong>${esc(myPick.leaderboardGuess)}</strong> #1</div>`;
     }
   }
   html += `</div>`;
@@ -615,10 +616,9 @@ function renderPicks() {
 }
 
 async function submitPicks() {
-  const elimChips = [...document.querySelectorAll('#picks-elim-chips .chip.elim-on')];
-  const eg = elimChips.map(el => el.dataset.couple);
+  const eg = document.getElementById('elim-select')?.value;
   const lg = document.getElementById('lb-select')?.value;
-  if (!eg.length) { toast('Select at least one elimination pick', 'error'); return; }
+  if (!eg) { toast('Select an elimination guess', 'error'); return; }
   if (!lg) { toast('Select a leaderboard #1 guess', 'error'); return; }
   showLoading('Submitting picks…');
   try {
