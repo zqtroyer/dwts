@@ -243,7 +243,8 @@
     -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent;
   }
   .chip:active { opacity: 0.7; }
-  .chip.elim-on { background: rgba(255,82,82,0.2); border-color: var(--danger); color: var(--danger); }
+  .chip.elim-on  { background: rgba(255,82,82,0.2);   border-color: var(--danger);  color: var(--danger);  }
+  .chip.surv-on  { background: rgba(105,240,174,0.2); border-color: var(--success); color: var(--success); }
 
   /* Couple scores */
   .score-grid { display: flex; flex-direction: column; gap: 8px; }
@@ -430,8 +431,20 @@ window.addEventListener('load', () => {
       STATE.user = JSON.parse(u);
       showApp();
       loadAppState().catch(e => {
-        if (e.message && e.message.toLowerCase().includes('auth')) logout();
-        else toast('Refresh error: ' + e.message, 'error');
+        if (e.message && e.message.toLowerCase().includes('auth')) {
+          // Session rejected — go back to PIN screen with name pre-selected
+          try {
+            const savedUser = STATE.user;
+            localStorage.removeItem('dwts_auth');
+            localStorage.removeItem('dwts_user');
+            STATE.auth = null; STATE.user = null;
+            document.getElementById('app').classList.add('hidden');
+            document.getElementById('login-screen').style.display = '';
+            if (savedUser) selectPlayer(savedUser.name, savedUser.displayName);
+          } catch(eInner) { location.reload(); }
+        } else {
+          toast('Refresh error: ' + e.message, 'error');
+        }
       });
     }
   } catch(e) {}
@@ -809,7 +822,7 @@ function renderAdminDash(dash) {
   } else {
     const isLocked = dash.isLocked;
     html += `<div style="margin-bottom:14px;">
-      <div class="bold" style="font-size:1.05em;">Week ${week.weekNum} · <span class="accent">${week.status}</span>${isLocked?' <span class="danger">LOCKED</span>':' <span class="success">OPEN</span>'}</div>
+      <div class="bold" style="font-size:1.05em;">Week ${week.weekNum} · ${isLocked?'<span class="danger">LOCKED</span>':'<span class="success">OPEN</span>'}</div>
       <div class="small muted" style="margin-top:4px;">${fmtDate(new Date(week.deadline))}</div>
       <div class="small muted" style="margin-top:4px;">Missing: ${dash.missing&&dash.missing.length?dash.missing.join(', '):'All submitted'}</div>
     </div>`;
@@ -856,7 +869,14 @@ function renderAdminDash(dash) {
           return `<div class="chip${pre?' elim-on':''}" data-couple="${esc(c)}" onclick="this.classList.toggle('elim-on')">${esc(c)}</div>`;
         }).join('')}
       </div>
-      <label style="margin-bottom:8px;display:block;margin-top:6px;">Couple scores — determines leaderboard ranking</label>
+      <label style="margin-bottom:10px;display:block;margin-top:14px;">Who survived elimination? <span class="muted small">(couples that were in danger but safe)</span></label>
+      <div class="chip-grid" id="surv-chips">
+        ${activeCouples.map(c => {
+          const pre = dash.results && (dash.results.survivingCouples||[]).includes(c);
+          return `<div class="chip${pre?' surv-on':''}" data-couple="${esc(c)}" onclick="this.classList.toggle('surv-on')">${esc(c)}</div>`;
+        }).join('')}
+      </div>
+      <label style="margin-bottom:8px;display:block;margin-top:14px;">Couple scores — determines leaderboard ranking</label>
       <div class="score-grid">
         ${activeCouples.map(c => {
           const pre = dash.results && dash.results.coupleScores && dash.results.coupleScores[c] != null ? dash.results.coupleScores[c] : '';
@@ -933,6 +953,7 @@ async function adminOpenWeek() {
 
 async function adminSaveResults(weekId) {
   const eliminated = [...document.querySelectorAll('#elim-chips .chip.elim-on')].map(el => el.dataset.couple);
+  const survivingCouples = [...document.querySelectorAll('#surv-chips .chip.surv-on')].map(el => el.dataset.couple);
   const coupleScores = {};
   document.querySelectorAll('.score-inp').forEach(inp => {
     const val = parseFloat(inp.value);
@@ -948,7 +969,7 @@ async function adminSaveResults(weekId) {
   if (!scored.length) { toast('Enter at least one couple score', 'error'); return; }
   showLoading('Saving results…');
   try {
-    await callGAS('adminEnterResults', weekId, { eliminated, leaderboard, coupleScores });
+    await callGAS('adminEnterResults', weekId, { eliminated, survivingCouples, leaderboard, coupleScores });
     toast('Results saved!', 'success-toast'); hideLoading();
   } catch(e) { hideLoading(); toast(e.message, 'error'); }
 }
