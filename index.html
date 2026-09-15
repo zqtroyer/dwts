@@ -14,7 +14,7 @@
     --gold:    #ffd700; --radius:  12px;
   }
   html { font-size: 16px; }
-body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; min-height: 100vh; line-height: 1.4; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; min-height: 100vh; line-height: 1.4; }
   .hidden { display: none !important; }
   .muted  { color: var(--muted); }  .accent { color: var(--accent); }
   .success{ color: var(--success); } .danger { color: var(--danger); }
@@ -23,18 +23,17 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, Bl
   .text-center { text-align: center; }
   ::-webkit-scrollbar { width: 0; }
 
-  /* ── Layout ── */
+  /* Layout */
   #app { height: 100vh; display: flex; flex-direction: column; }
 
-  /* ── Header ── */
+  /* Header */
   #header {
     background: linear-gradient(135deg, #1a0030 0%, #2d0057 100%);
     border-bottom: 2px solid var(--accent2);
     padding: 16px 18px; display: flex; align-items: center;
     justify-content: space-between; flex-shrink: 0;
   }
-  #header .logo { font-size: 1.5em; font-weight: 800; letter-spacing: 1px; }
-  #header .logo span { color: var(--accent); }
+  #header .logo { font-size: 1.5em; font-weight: 900; letter-spacing: 2px; color: var(--accent); }
   #header .user-info { font-size: 0.85em; color: var(--muted); text-align: right; line-height: 1.3; }
   #header .user-info strong { color: var(--text); font-size: 1.05em; }
   #btn-logout {
@@ -45,7 +44,7 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, Bl
   }
   #btn-logout:active { border-color: var(--accent3); color: var(--accent3); }
 
-  /* ── Bottom Nav ── */
+  /* Bottom Nav */
   #nav {
     position: fixed; bottom: 0; left: 0; right: 0;
     background: var(--surface); border-top: 2px solid var(--border);
@@ -61,18 +60,18 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, Bl
     border-radius: 0; touch-action: manipulation; min-height: 70px;
     -webkit-tap-highlight-color: transparent; white-space: nowrap;
   }
-  .nav-btn .ni { font-size: 2rem; line-height: 1; }
+  .nav-btn .ni { display: flex; align-items: center; justify-content: center; }
   .nav-btn.active { color: var(--accent); }
   .nav-btn:active { background: var(--surface2); }
 
-  /* ── Main ── */
+  /* Main */
   #main { flex: 1; overflow-y: auto; padding: 20px 18px 130px; -webkit-overflow-scrolling: touch; }
 
-  /* ── Cards ── */
+  /* Cards */
   .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; margin-bottom: 18px; }
-  .card-title { font-size: 1.25em; font-weight: 700; color: var(--accent); margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
+  .card-title { font-size: 1.25em; font-weight: 700; color: var(--accent); margin-bottom: 18px; }
 
-  /* ── Buttons ── */
+  /* Buttons */
   .btn {
     display: inline-flex; align-items: center; justify-content: center;
     padding: 16px 26px; border-radius: 14px; border: none; cursor: pointer;
@@ -93,7 +92,7 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, Bl
   .btn-full     { width: 100%; }
   .inline-btns  { display: flex; gap: 10px; flex-wrap: wrap; }
 
-  /* ── Inputs (16px min to prevent iOS zoom) ── */
+  /* Inputs */
   .input {
     background: var(--surface2); border: 1px solid var(--border); color: var(--text);
     padding: 16px 18px; border-radius: 14px; font-size: 17px; width: 100%;
@@ -105,7 +104,7 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, Bl
   select.input option:disabled { color: var(--muted); font-style: italic; }
   label { font-size: 0.92em; color: var(--muted); margin-bottom: 8px; display: block; font-weight: 600; }
 
-  /* ── Toast ── */
+  /* Toast */
   #toast {
     position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%);
     background: var(--surface2); border: 1px solid var(--accent);
@@ -117,13 +116,13 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, Bl
   #toast.error { border-color: var(--danger); background: #2a0015; }
   #toast.success-toast { border-color: var(--success); }
 
-  /* ── Spinner ── */
+  /* Spinner */
   .spinner { display: inline-block; width: 30px; height: 30px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
   #loading-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); display: flex; align-items: center; justify-content: center; z-index: 8888; gap: 14px; flex-direction: column; }
   #loading-overlay span { color: var(--muted); font-size: 0.95em; }
 
-  /* ── Login (mirrors Blazin' 5 approach) ── */
+  /* Login */
   #login-screen {
     min-height: 100vh; display: flex; align-items: center; justify-content: center;
     padding: 1.5rem; background: var(--bg);
@@ -139,7 +138,7 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, Bl
   }
   .player-btn:active { border-color: var(--accent); background: rgba(170,0,255,0.15); }
 
-  /* ── Tables (scrollable) ── */
+  /* Tables */
   .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%; }
   .standings-table { width: 100%; border-collapse: collapse; min-width: 240px; }
   .standings-table th { background: var(--surface2); padding: 14px 12px; text-align: left; font-size: 0.88em; color: var(--muted); font-weight: 700; border-bottom: 1px solid var(--border); }
@@ -151,17 +150,17 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, Bl
   .rank-3 { background: #cd7f32; color: #fff; }
   .rank-n { background: var(--surface2); color: var(--muted); }
 
-  /* ── Score cards ── */
+  /* Score cards */
   .score-card { display: flex; justify-content: space-between; align-items: center; gap: 14px; background: var(--surface2); border-radius: 14px; padding: 18px 20px; margin-bottom: 10px; }
   .score-card-left { display: flex; align-items: center; gap: 14px; min-width: 0; flex: 1; }
   .score-card-name { font-weight: 700; font-size: 1.1em; }
   .score-card-breakdown { font-size: 0.8em; color: var(--muted); margin-top: 4px; }
   .score-card-pts { font-size: 1.4em; font-weight: 800; color: var(--accent); flex-shrink: 0; }
 
-  /* ── Picks ── */
+  /* Picks */
   .pick-row { display: flex; flex-direction: column; gap: 7px; margin-bottom: 16px; }
 
-  /* ── Status grid ── */
+  /* Status grid */
   .status-grid { display: flex; flex-direction: column; gap: 10px; }
   .status-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 6px 0; }
   .status-name { flex: 1; font-size: 1em; font-weight: 600; }
@@ -169,7 +168,7 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, Bl
   .badge-submitted { background: rgba(105,240,174,0.15); color: var(--success); border: 1px solid var(--success); }
   .badge-pending   { background: rgba(255,235,59,0.1);   color: var(--warn);    border: 1px solid var(--warn); }
 
-  /* ── History ── */
+  /* History */
   .week-history-row { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; margin-bottom: 14px; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
   .week-history-row .wh-top { display: flex; justify-content: space-between; align-items: center; }
   .week-history-row .wh-pts { font-size: 1.5em; font-weight: 800; color: var(--accent); }
@@ -179,11 +178,11 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, Bl
   .brkdwn-key { color: var(--muted); }
   .brkdwn-val.pos { color: var(--success); font-weight: 700; }
 
-  /* ── Roster pills ── */
+  /* Roster pills */
   .roster-pill { display: inline-block; background: rgba(224,64,251,0.12); border: 1px solid var(--accent2); color: var(--text); padding: 9px 18px; border-radius: 22px; font-size: 0.92em; margin: 4px; }
   .roster-pill.eliminated { opacity: 0.4; text-decoration: line-through; color: var(--muted); border-color: var(--border); background: none; }
 
-  /* ── Reveals table ── */
+  /* Reveals table */
   .reveals-table { width: 100%; border-collapse: collapse; }
   .reveals-table th { background: var(--surface2); padding: 10px 12px; font-size: 0.82em; color: var(--muted); text-align: left; font-weight: 700; }
   .reveals-table td { padding: 11px 12px; border-bottom: 1px solid rgba(74,0,128,0.3); font-size: 0.9em; }
@@ -192,7 +191,7 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, Bl
   .incorrect { color: var(--danger); }
   .lb-1 { color: var(--gold); font-weight: 700; }
 
-  /* ── Deadline banner ── */
+  /* Deadline banner */
   #deadline-banner {
     background: linear-gradient(90deg, rgba(170,0,255,0.15), rgba(255,64,129,0.15));
     border: 1px solid var(--accent2); border-radius: var(--radius);
@@ -205,12 +204,12 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, Bl
   .deadline-locked { color: var(--danger); }
   .deadline-open   { color: var(--success); }
 
-  /* ── Admin ── */
+  /* Admin */
   .admin-section { margin-bottom: 22px; }
   .admin-section h3 { font-size: 0.95em; font-weight: 700; color: var(--accent); margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
   .form-row { display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px; }
 
-  /* ── Pick accordion ── */
+  /* Pick accordion */
   .pick-accordion { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 12px; }
   .pick-acc-header {
     display: flex; align-items: center; justify-content: space-between; gap: 10px;
@@ -225,7 +224,7 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, Bl
   .pick-acc-body.open { display: block; }
   .pick-status-txt { font-size: 0.85em; color: var(--muted); }
 
-  /* ── Elimination chips ── */
+  /* Chips */
   .chip-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
   .chip {
     padding: 13px 20px; border-radius: 26px; border: 1px solid var(--border);
@@ -236,16 +235,7 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, Bl
   .chip:active { opacity: 0.7; }
   .chip.elim-on { background: rgba(255,82,82,0.2); border-color: var(--danger); color: var(--danger); }
 
-  /* ── LB builder ── */
-  .lb-ordered-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; min-height: 8px; }
-  .lb-order-item { display: flex; align-items: center; gap: 12px; padding: 13px 16px; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; }
-  .lb-order-num  { font-weight: 800; color: var(--accent); min-width: 30px; font-size: 0.9em; }
-  .lb-order-name { flex: 1; font-size: 0.9em; }
-  .lb-order-remove { color: var(--muted); cursor: pointer; padding: 4px 8px; border-radius: 6px; font-size: 1.1em; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
-  .lb-order-remove:active { color: var(--danger); }
-  .lb-hint { font-size: 0.85em; color: var(--muted); padding: 6px 0; }
-
-  /* ── Couple scores ── */
+  /* Couple scores */
   .score-grid { display: flex; flex-direction: column; gap: 8px; }
   .score-row  { display: flex; align-items: center; gap: 10px; }
   .score-name { flex: 1; font-size: 0.88em; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -260,9 +250,9 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, Bl
 
     <!-- Branding -->
     <div style="text-align:center;margin-bottom:2rem">
-      <div style="font-size:2.5rem;margin-bottom:.5rem">💃</div>
-      <div style="font-size:1.6rem;font-weight:800;color:var(--accent);letter-spacing:-.5px">DWTS Fantasy</div>
-      <div style="font-size:.9rem;color:var(--muted);margin-top:.25rem">Dancing With The Stars</div>
+      <div style="font-size:2.4rem;font-weight:900;color:var(--accent);letter-spacing:2px;line-height:1">DWTS</div>
+      <div style="font-size:1rem;font-weight:600;color:var(--text);margin-top:.4rem;letter-spacing:.5px">Fantasy League</div>
+      <div style="font-size:.8rem;color:var(--muted);margin-top:.2rem">Dancing With The Stars</div>
     </div>
 
     <!-- Step 1: pick your name -->
@@ -294,7 +284,7 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, Bl
 <!-- MAIN APP -->
 <div id="app" class="hidden">
   <div id="header">
-    <div class="logo">💃 <span>DWTS</span></div>
+    <div class="logo">DWTS</div>
     <div style="display:flex; align-items:center; gap:4px;">
       <div class="user-info"><strong id="hdr-name">—</strong><br><span id="hdr-role"></span></div>
       <button id="btn-logout" onclick="logout()">Out</button>
@@ -313,19 +303,19 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, Bl
     </div>
     <div id="view-standings" class="view hidden">
       <div class="card">
-        <div class="card-title">🏆 Season Standings</div>
+        <div class="card-title">Season Standings</div>
         <div id="standings-content"><div class="muted small">Loading…</div></div>
       </div>
     </div>
     <div id="view-history" class="view hidden">
       <div class="card">
-        <div class="card-title">📅 Week History</div>
+        <div class="card-title">Week History</div>
         <div id="history-content"><div class="muted small">Loading…</div></div>
       </div>
     </div>
     <div id="view-roster" class="view hidden">
       <div class="card">
-        <div class="card-title">👥 My Roster</div>
+        <div class="card-title">My Roster</div>
         <div id="roster-content"></div>
       </div>
       <div class="card">
@@ -340,19 +330,41 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, Bl
   <!-- Bottom nav -->
   <div id="nav">
     <button class="nav-btn active" data-view="picks" onclick="showView('picks')">
-      <span class="ni">🎯</span>Picks
+      <span class="ni">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="11"/>
+        </svg>
+      </span>Picks
     </button>
     <button class="nav-btn" data-view="standings" onclick="showView('standings')">
-      <span class="ni">🏆</span>Stands
+      <span class="ni">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="10" width="4" height="11"/><rect x="10" y="6" width="4" height="15"/><rect x="17" y="13" width="4" height="8"/>
+        </svg>
+      </span>Stands
     </button>
     <button class="nav-btn" data-view="history" onclick="showView('history')">
-      <span class="ni">📅</span>History
+      <span class="ni">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/>
+        </svg>
+      </span>History
     </button>
     <button class="nav-btn" data-view="roster" onclick="showView('roster')">
-      <span class="ni">👥</span>Roster
+      <span class="ni">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/>
+        </svg>
+      </span>Roster
     </button>
     <button class="nav-btn hidden" id="nav-admin" data-view="admin" onclick="showView('admin')">
-      <span class="ni">⚙️</span>Admin
+      <span class="ni">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.07 4.93l-1.41 1.41M5.34 18.66l-1.41 1.41M4.93 4.93l1.41 1.41M18.66 18.66l1.41 1.41M2 12h2M20 12h2M12 2v2M12 20v2"/>
+        </svg>
+      </span>Admin
     </button>
   </div>
 </div>
@@ -366,7 +378,6 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, Bl
 <script>
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbz6n_rTvz5o5_qgHTlKBuDowmbLVgMgMC3kxpryoJgSbl5pkjBsa35a_GRDqKNDawI/exec';
 
-// ── Hardcoded player list — no GAS call needed ──
 const PLAYERS = [
   { name: 'carson',   displayName: 'Carson',   isAdmin: true  },
   { name: 'courtney', displayName: 'Courtney', isAdmin: false },
@@ -381,13 +392,16 @@ const PLAYERS = [
 let STATE = { user:null, auth:null, weekData:null, season:null, seasonStandings:[], allWeeks:[], allCouples:[], eliminatedAll:[], roster:[] };
 let _countdownInterval = null;
 let _currentView = 'picks';
-let _lbOrder = [];
-let _lbAllCouples = [];
 let _loginBusy = false;
 let _selectedPlayer = null;
-let _pinBuffer = '';
 
-// ── GAS ──
+// Normalize eliminationGuess to array (handles legacy string or new array)
+function normalizeElim(eg) {
+  if (!eg) return [];
+  return Array.isArray(eg) ? eg : [eg];
+}
+
+// GAS
 async function callGAS(fn, ...args) {
   const resp = await fetch(GAS_URL, { method:'POST', body: JSON.stringify({fn, args, auth: STATE.auth}), redirect:'follow' });
   const data = await resp.json();
@@ -395,19 +409,15 @@ async function callGAS(fn, ...args) {
   return data.result;
 }
 
-// ── INIT ──
+// INIT
 window.addEventListener('load', () => {
-  // Render player grid immediately — no GAS call
   renderPlayerGrid();
-
-  // Try to restore session from localStorage
   try {
     const a = localStorage.getItem('dwts_auth');
     const u = localStorage.getItem('dwts_user');
     if (a && u) {
       STATE.auth = JSON.parse(a);
       STATE.user = JSON.parse(u);
-      // Show app immediately, then load fresh data in background
       showApp();
       loadAppState().catch(e => {
         if (e.message && e.message.toLowerCase().includes('auth')) logout();
@@ -417,7 +427,7 @@ window.addEventListener('load', () => {
   } catch(e) {}
 });
 
-// ── LOGIN ──
+// LOGIN
 function renderPlayerGrid() {
   document.getElementById('player-grid').innerHTML = PLAYERS.map(p =>
     `<button class="player-btn" onclick="selectPlayer('${p.name}','${p.displayName}')">${p.displayName}</button>`
@@ -447,10 +457,8 @@ async function attemptLogin() {
   if (_loginBusy) return;
   _loginBusy = true;
   showLoading('Loading…');
-
   STATE.auth = { name: _selectedPlayer.name, pin };
   STATE.user = _selectedPlayer;
-
   try {
     await loadAppState();
     try {
@@ -478,7 +486,7 @@ function showApp() {
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('app').classList.remove('hidden');
   document.getElementById('hdr-name').textContent = STATE.user.displayName;
-  document.getElementById('hdr-role').textContent = STATE.user.isAdmin ? '⭐ Commissioner' : 'Player';
+  document.getElementById('hdr-role').textContent = STATE.user.isAdmin ? 'Commissioner' : 'Player';
   if (STATE.user.isAdmin) document.getElementById('nav-admin').classList.remove('hidden');
   showView('picks');
   startCountdown();
@@ -489,7 +497,7 @@ function logout() {
   location.reload();
 }
 
-// ── APP STATE ──
+// APP STATE
 async function loadAppState() {
   const data = await callGAS('getAppState');
   STATE.weekData        = data.weekData;
@@ -502,7 +510,7 @@ async function loadAppState() {
   if (_currentView) renderView(_currentView);
 }
 
-// ── NAV ──
+// NAV
 function showView(view) {
   _currentView = view;
   document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
@@ -519,34 +527,34 @@ function renderView(view) {
   if (view === 'admin')     renderAdmin();
 }
 
-// ── PICKS ──
+// PICKS
 function renderPicks() {
   const el = document.getElementById('picks-content');
   const wd = STATE.weekData;
   if (!wd || !wd.week) {
-    el.innerHTML = `<div class="card"><div class="muted text-center" style="padding:50px 0;font-size:1.1em;">No week is currently open. Check back soon! 💃</div></div>`;
+    el.innerHTML = `<div class="card"><div class="muted text-center" style="padding:50px 0;font-size:1.1em;">No week is currently open. Check back soon!</div></div>`;
     document.getElementById('deadline-banner').classList.add('hidden');
     return;
   }
   const week = wd.week, isLocked = wd.isLocked, deadline = wd.deadline ? new Date(wd.deadline) : null, myPick = wd.myPick;
+  const activeCouples = STATE.allCouples.filter(c => !STATE.eliminatedAll.includes(c));
   document.getElementById('deadline-banner').classList.remove('hidden');
   document.getElementById('deadline-time-str').textContent = deadline ? fmtDate(deadline) : '—';
   updateCountdown(deadline, isLocked);
 
-  let html = `<div class="card"><div class="card-title">🎯 Week ${week.weekNum} Picks</div>`;
+  let html = `<div class="card"><div class="card-title">Week ${week.weekNum} Picks</div>`;
   if (week.status === 'closed') {
     html += `<div class="muted">This week is closed. Results are published below.</div>`;
   } else if (isLocked) {
-    html += `<div class="warn bold" style="margin-bottom:14px;">🔒 Picks are locked — episode has started!</div>`;
+    html += `<div class="warn bold" style="margin-bottom:14px;">Picks are locked — episode has started!</div>`;
   } else {
-    const elimVal = myPick ? myPick.eliminationGuess : '';
-    const lbVal   = myPick ? myPick.leaderboardGuess : '';
+    const currentElims = normalizeElim(myPick ? myPick.eliminationGuess : null);
+    const lbVal = myPick ? myPick.leaderboardGuess : '';
     html += `<div class="pick-row">
-      <label>Who will be eliminated?</label>
-      <select class="input" id="elim-select">
-        <option value="">— Select couple —</option>
-        ${STATE.allCouples.map(c => { const d=STATE.eliminatedAll.includes(c); return `<option value="${esc(c)}" ${c===elimVal?'selected':''} ${d?'disabled':''}>${esc(c)}${d?' ✗':''}</option>`; }).join('')}
-      </select>
+      <label>Who will be eliminated? (select all you think)</label>
+      <div class="chip-grid" id="picks-elim-chips">
+        ${activeCouples.map(c => `<div class="chip${currentElims.includes(c)?' elim-on':''}" data-couple="${esc(c)}" onclick="this.classList.toggle('elim-on')">${esc(c)}</div>`).join('')}
+      </div>
     </div>
     <div class="pick-row">
       <label>Who will be #1 on the leaderboard?</label>
@@ -556,17 +564,17 @@ function renderPicks() {
       </select>
     </div>
     <button class="btn btn-primary btn-full" onclick="submitPicks()" style="margin-top:6px;">
-      ${myPick && myPick.eliminationGuess ? '✏️ Update Picks' : '✅ Submit Picks'}
+      ${myPick && currentElims.length ? 'Update Picks' : 'Submit Picks'}
     </button>`;
-    if (myPick && myPick.eliminationGuess) {
-      html += `<div class="small muted" style="margin-top:10px;">Current: <strong>${esc(myPick.eliminationGuess)}</strong> eliminated · <strong>${esc(myPick.leaderboardGuess)}</strong> #1</div>`;
+    if (myPick && currentElims.length) {
+      html += `<div class="small muted" style="margin-top:10px;">Current: <strong>${currentElims.map(esc).join(', ')}</strong> eliminated · <strong>${esc(myPick.leaderboardGuess)}</strong> #1</div>`;
     }
   }
   html += `</div>`;
 
   if (wd.results) {
     const r = wd.results;
-    html += `<div class="card"><div class="card-title">📋 Week ${week.weekNum} Results</div>
+    html += `<div class="card"><div class="card-title">Week ${week.weekNum} Results</div>
       <div style="margin-bottom:12px;"><span class="small muted">Eliminated: </span>${(r.eliminated||[]).map(c=>`<span class="roster-pill eliminated">${esc(c)}</span>`).join('')}</div>
       <div style="margin-bottom:10px;"><span class="small muted">Leaderboard #1: </span><span class="lb-1">${esc(r.leaderboard&&r.leaderboard[0]?r.leaderboard[0]:'—')}</span></div>`;
     if (r.leaderboard && r.leaderboard.length > 1) {
@@ -575,7 +583,7 @@ function renderPicks() {
     }
     html += `</div>`;
     if (wd.weeklyStandings && wd.weeklyStandings.length) {
-      html += `<div class="card"><div class="card-title">🎖 Week ${week.weekNum} Scores</div>
+      html += `<div class="card"><div class="card-title">Week ${week.weekNum} Scores</div>
         ${wd.weeklyStandings.map((s,i)=>{ const bd=s.breakdown||{};
           const parts=[]; if(bd.elimGuess>0)parts.push('Elim +'+bd.elimGuess); if(bd.lbGuess>0)parts.push('LB +'+bd.lbGuess); if(bd.survivalBonus>0)parts.push('Surv +'+bd.survivalBonus); if(bd.lbCouple>0)parts.push('LBR +'+bd.lbCouple);
           return `<div class="score-card">
@@ -590,33 +598,37 @@ function renderPicks() {
   }
 
   if (!isLocked) {
-    html += `<div class="card"><div class="card-title">📊 Pick Status</div><div class="status-grid">
+    html += `<div class="card"><div class="card-title">Pick Status</div><div class="status-grid">
       ${(wd.subStatus||[]).map(s=>`<div class="status-row"><div class="status-name">${esc(s.displayName)}</div>
-        <div class="status-badge ${s.submitted?'badge-submitted':'badge-pending'}">${s.submitted?'✅ In':'⏳ Pending'}</div></div>`).join('')}
+        <div class="status-badge ${s.submitted?'badge-submitted':'badge-pending'}">${s.submitted?'In':'Pending'}</div></div>`).join('')}
     </div></div>`;
   } else if (wd.visiblePicks && wd.visiblePicks.length && !wd.results) {
-    html += `<div class="card"><div class="card-title">🔓 Picks Revealed</div>
+    html += `<div class="card"><div class="card-title">Picks Revealed</div>
       <div class="table-scroll"><table class="reveals-table"><thead><tr><th>Player</th><th>Elimination</th><th>LB #1</th></tr></thead><tbody>
-      ${wd.visiblePicks.map(p=>`<tr><td class="bold">${esc(p.playerName)}</td><td>${esc(p.eliminationGuess||'—')}</td><td>${esc(p.leaderboardGuess||'—')}</td></tr>`).join('')}
+      ${wd.visiblePicks.map(p=>{
+        const eg = normalizeElim(p.eliminationGuess);
+        return `<tr><td class="bold">${esc(p.playerName)}</td><td>${eg.map(esc).join(', ')||'—'}</td><td>${esc(p.leaderboardGuess||'—')}</td></tr>`;
+      }).join('')}
       </tbody></table></div></div>`;
   }
   el.innerHTML = html;
 }
 
 async function submitPicks() {
-  const eg = document.getElementById('elim-select')?.value;
+  const elimChips = [...document.querySelectorAll('#picks-elim-chips .chip.elim-on')];
+  const eg = elimChips.map(el => el.dataset.couple);
   const lg = document.getElementById('lb-select')?.value;
-  if (!eg) { toast('Select an elimination guess', 'error'); return; }
+  if (!eg.length) { toast('Select at least one elimination pick', 'error'); return; }
   if (!lg) { toast('Select a leaderboard #1 guess', 'error'); return; }
   showLoading('Submitting picks…');
   try {
-    const res = await callGAS('submitPicks', { eliminationGuess:eg, leaderboardGuess:lg });
+    const res = await callGAS('submitPicks', { eliminationGuess: eg, leaderboardGuess: lg });
     await loadAppState(); hideLoading();
-    toast(res.allPicksIn ? '✅ All picks in!' : '✅ Picks saved!', 'success-toast');
+    toast(res.allPicksIn ? 'All picks in!' : 'Picks saved!', 'success-toast');
   } catch(e) { hideLoading(); toast(e.message, 'error'); }
 }
 
-// ── COUNTDOWN ──
+// COUNTDOWN
 function startCountdown() {
   if (_countdownInterval) clearInterval(_countdownInterval);
   _countdownInterval = setInterval(() => {
@@ -629,14 +641,14 @@ function startCountdown() {
 function updateCountdown(deadline, isLocked) {
   const el = document.getElementById('deadline-countdown');
   if (!el) return;
-  if (isLocked || !deadline) { el.innerHTML = '<span class="deadline-locked">🔒 Locked</span>'; return; }
+  if (isLocked || !deadline) { el.innerHTML = '<span class="deadline-locked">Locked</span>'; return; }
   const diff = deadline - new Date();
-  if (diff <= 0) { el.innerHTML = '<span class="deadline-locked">🔒 Locked</span>'; return; }
+  if (diff <= 0) { el.innerHTML = '<span class="deadline-locked">Locked</span>'; return; }
   const h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
-  el.innerHTML = `<span class="deadline-open">⏱ ${h>0?h+'h ':''} ${m}m ${h>0?'':s+'s'} left</span>`;
+  el.innerHTML = `<span class="deadline-open">${h>0?h+'h ':''} ${m}m ${h>0?'':s+'s'} left</span>`;
 }
 
-// ── STANDINGS ──
+// STANDINGS
 function renderStandings() {
   const standings = STATE.seasonStandings || [];
   const el = document.getElementById('standings-content');
@@ -651,7 +663,7 @@ function renderStandings() {
   </tbody></table></div>`;
 }
 
-// ── HISTORY ──
+// HISTORY
 async function renderHistory() {
   const el = document.getElementById('history-content');
   const closed = STATE.allWeeks.filter(w => w.status === 'closed');
@@ -668,6 +680,7 @@ async function renderHistory() {
       const pts = myScore ? myScore.points : 0;
       const bd  = myScore ? myScore.breakdown || {} : {};
       const r   = h.results;
+      const myElims = myPick ? normalizeElim(myPick.eliminationGuess) : [];
       html += `<div class="week-history-row" onclick="toggleWeekDetail(this)">
         <div class="wh-top">
           <div><div class="bold" style="font-size:1.05em;">Week ${h.week.weekNum}</div><div class="small muted" style="margin-top:2px;">${fmtDate(new Date(h.week.deadline))}</div></div>
@@ -675,7 +688,7 @@ async function renderHistory() {
         </div>
         <div class="week-history-detail">
           ${myPick ? `
-            <div class="brkdwn-row"><span class="brkdwn-key">Elimination guess</span><span>${esc(myPick.eliminationGuess||'—')} ${r&&r.eliminated&&r.eliminated.includes(myPick.eliminationGuess)?'<span class="correct">✓</span>':'<span class="incorrect">✗</span>'}</span></div>
+            <div class="brkdwn-row"><span class="brkdwn-key">Elimination guess</span><span>${myElims.map(esc).join(', ')||'—'} ${r&&r.eliminated&&myElims.some(g=>r.eliminated.includes(g))?'<span class="correct">✓</span>':'<span class="incorrect">✗</span>'}</span></div>
             <div class="brkdwn-row"><span class="brkdwn-key">LB #1 guess</span><span>${esc(myPick.leaderboardGuess||'—')} ${r&&r.leaderboard&&r.leaderboard[0]===myPick.leaderboardGuess?'<span class="correct">✓</span>':'<span class="incorrect">✗</span>'}</span></div>
           ` : '<div class="muted small">No pick submitted</div>'}
           <div style="margin-top:12px;border-top:1px solid var(--border);padding-top:12px;">
@@ -697,7 +710,7 @@ function toggleWeekDetail(row) {
   row.querySelector('.week-history-detail').classList.toggle('open');
 }
 
-// ── ROSTER ──
+// ROSTER
 function renderRoster() {
   const roster = STATE.roster || [], elim = STATE.eliminatedAll || [];
   document.getElementById('roster-content').innerHTML = !roster.length
@@ -713,7 +726,7 @@ function renderRoster() {
       </div>`).join('') || '<div class="muted small">No roster data.</div>';
 }
 
-// ── ADMIN ──
+// ADMIN
 async function renderAdmin() {
   if (!STATE.user || !STATE.user.isAdmin) return;
   const el = document.getElementById('admin-content');
@@ -729,31 +742,32 @@ function renderAdminDash(dash) {
   const elim = dash.eliminatedAll || [];
   const activeCouples = STATE.allCouples.filter(c => !elim.includes(c));
 
-  let html = '<div class="card"><div class="card-title">⚙️ Week Management</div>';
+  let html = '<div class="card"><div class="card-title">Week Management</div>';
 
   if (!week) {
     html += `<div class="admin-section"><h3>Open New Week</h3>
       <div class="form-row"><label>Week Number</label><input type="number" class="input" id="a-weeknum" min="1" max="11" placeholder="e.g. 1"></div>
       <div class="form-row"><label>Notes (optional)</label><input type="text" class="input" id="a-notes" placeholder="e.g. Week 1 — Premiere"></div>
-      <button class="btn btn-primary btn-full" onclick="adminOpenWeek()">▶️ Open Week</button>
+      <button class="btn btn-primary btn-full" onclick="adminOpenWeek()">Open Week</button>
     </div>`;
   } else {
     const isLocked = dash.isLocked;
     html += `<div style="margin-bottom:14px;">
-      <div class="bold" style="font-size:1.05em;">Week ${week.weekNum} · <span class="accent">${week.status}</span>${isLocked?' <span class="danger">🔒 LOCKED</span>':' <span class="success">✅ OPEN</span>'}</div>
+      <div class="bold" style="font-size:1.05em;">Week ${week.weekNum} · <span class="accent">${week.status}</span>${isLocked?' <span class="danger">LOCKED</span>':' <span class="success">OPEN</span>'}</div>
       <div class="small muted" style="margin-top:4px;">${fmtDate(new Date(week.deadline))}</div>
-      <div class="small muted" style="margin-top:4px;">Missing: ${dash.missing&&dash.missing.length?dash.missing.join(', '):'All submitted ✅'}</div>
+      <div class="small muted" style="margin-top:4px;">Missing: ${dash.missing&&dash.missing.length?dash.missing.join(', '):'All submitted'}</div>
     </div>`;
 
-    // Player pick overrides — accordion
+    // Player pick overrides
     html += `<div class="admin-section"><h3>Override Player Picks</h3>`;
     for (const s of (dash.subStatus || [])) {
       const hp = s.pick && s.pick.eliminationGuess;
-      const eShort = hp ? s.pick.eliminationGuess.split('&')[0].trim() : '—';
+      const eArr = hp ? normalizeElim(s.pick.eliminationGuess) : [];
+      const eShort = eArr.length ? eArr.map(c => c.split('&')[0].trim()).join(', ') : '—';
       const lShort = hp ? s.pick.leaderboardGuess.split('&')[0].trim() : '—';
       html += `<div class="pick-accordion" id="acc-${esc(s.name)}">
         <div class="pick-acc-header" onclick="toggleAcc('${esc(s.name)}')">
-          <div><span class="bold">${esc(s.displayName)}</span><span style="margin-left:8px;">${s.submitted?'✅':'⏳'}</span></div>
+          <div><span class="bold">${esc(s.displayName)}</span><span style="margin-left:8px;">${s.submitted?'✓':''}</span></div>
           <div style="display:flex;align-items:center;gap:8px;">
             <span class="pick-status-txt">${esc(eShort)} · ${esc(lShort)}</span>
             <span class="acc-arrow">▾</span>
@@ -763,7 +777,7 @@ function renderAdminDash(dash) {
           <div class="form-row"><label>Elimination guess</label>
             <select class="input" id="ov-elim-${esc(s.name)}">
               <option value="">— Select —</option>
-              ${STATE.allCouples.map(c=>{ const isE=elim.includes(c), sel=hp&&s.pick.eliminationGuess===c?'selected':''; return `<option value="${esc(c)}" ${sel} ${isE?'disabled':''}>${esc(c)}${isE?' ✗':''}</option>`; }).join('')}
+              ${STATE.allCouples.map(c=>{ const isE=elim.includes(c), sel=hp&&eArr.includes(c)?'selected':''; return `<option value="${esc(c)}" ${sel} ${isE?'disabled':''}>${esc(c)}${isE?' ✗':''}</option>`; }).join('')}
             </select></div>
           <div class="form-row"><label>Leaderboard #1 guess</label>
             <select class="input" id="ov-lb-${esc(s.name)}">
@@ -779,39 +793,34 @@ function renderAdminDash(dash) {
     // Results entry
     if (!dash.results || !dash.results.publishedAt) {
       html += `<div class="admin-section"><h3>Enter Episode Results</h3>
-      <label style="margin-bottom:10px;display:block;">Who was eliminated? (tap to mark)</label>
+      <label style="margin-bottom:10px;display:block;">Who was eliminated? (tap to select)</label>
       <div class="chip-grid" id="elim-chips">
         ${activeCouples.map(c => {
           const pre = dash.results && (dash.results.eliminated||[]).includes(c);
           return `<div class="chip${pre?' elim-on':''}" data-couple="${esc(c)}" onclick="this.classList.toggle('elim-on')">${esc(c)}</div>`;
         }).join('')}
       </div>
-      <label style="margin-bottom:8px;display:block;margin-top:6px;">Leaderboard order — tap to rank (#1 first)</label>
-      <div class="lb-ordered-list" id="lb-ordered"></div>
-      <div class="chip-grid" id="lb-chips"></div>
-      <details style="margin-top:14px;">
-        <summary class="small muted" style="cursor:pointer;padding:4px 0;">Couple scores (optional)</summary>
-        <div class="score-grid" style="margin-top:12px;">
-          ${activeCouples.map(c => {
-            const pre = dash.results && dash.results.coupleScores && dash.results.coupleScores[c] != null ? dash.results.coupleScores[c] : '';
-            return `<div class="score-row">
-              <div class="score-name">${esc(c)}</div>
-              <input type="number" class="input score-inp" data-couple="${esc(c)}" placeholder="—" step="0.5" min="0" max="40" value="${pre}">
-            </div>`;
-          }).join('')}
-        </div>
-      </details>
+      <label style="margin-bottom:8px;display:block;margin-top:6px;">Couple scores — determines leaderboard ranking</label>
+      <div class="score-grid">
+        ${activeCouples.map(c => {
+          const pre = dash.results && dash.results.coupleScores && dash.results.coupleScores[c] != null ? dash.results.coupleScores[c] : '';
+          return `<div class="score-row">
+            <div class="score-name">${esc(c)}</div>
+            <input type="number" class="input score-inp" data-couple="${esc(c)}" placeholder="—" step="0.5" min="0" max="40" value="${pre}">
+          </div>`;
+        }).join('')}
+      </div>
       <div class="inline-btns" style="margin-top:18px;">
-        <button class="btn btn-primary" onclick="adminSaveResults('${week.weekId}')">💾 Save</button>
-        <button class="btn btn-success" onclick="adminGrade('${week.weekId}')">🧮 Grade</button>
-        <button class="btn btn-accent3" onclick="adminPublish('${week.weekId}')">📣 Publish</button>
+        <button class="btn btn-primary" onclick="adminSaveResults('${week.weekId}')">Save</button>
+        <button class="btn btn-success" onclick="adminGrade('${week.weekId}')">Grade</button>
+        <button class="btn btn-accent3" onclick="adminPublish('${week.weekId}')">Publish</button>
       </div></div>`;
     } else {
       html += `<div class="admin-section">
-        <div class="small success" style="margin-bottom:14px;">✅ Results published</div>
+        <div class="small success" style="margin-bottom:14px;">Results published</div>
         <div class="inline-btns">
-          <button class="btn btn-success btn-sm" onclick="adminGrade('${week.weekId}')">🔄 Re-grade</button>
-          <button class="btn btn-accent3 btn-sm" onclick="adminPublish('${week.weekId}')">📣 Re-publish</button>
+          <button class="btn btn-success btn-sm" onclick="adminGrade('${week.weekId}')">Re-grade</button>
+          <button class="btn btn-accent3 btn-sm" onclick="adminPublish('${week.weekId}')">Re-publish</button>
         </div>
       </div>`;
     }
@@ -836,18 +845,13 @@ function renderAdminDash(dash) {
       html += `<div class="admin-section"><h3>Open Next Week</h3>
         <div class="form-row"><label>Week Number</label><input type="number" class="input" id="a-weeknum" min="1" max="11" value="${week.weekNum+1}"></div>
         <div class="form-row"><label>Notes</label><input type="text" class="input" id="a-notes" placeholder="optional"></div>
-        <button class="btn btn-primary btn-full" onclick="adminOpenWeek()">▶️ Open Week ${week.weekNum+1}</button>
+        <button class="btn btn-primary btn-full" onclick="adminOpenWeek()">Open Week ${week.weekNum+1}</button>
       </div>`;
     }
   }
 
   html += '</div>';
   el.innerHTML = html;
-
-  if (week && (!dash.results || !dash.results.publishedAt)) {
-    const existing = dash.results ? dash.results.leaderboard || [] : [];
-    initLbBuilder(activeCouples, existing);
-  }
 }
 
 function toggleAcc(name) {
@@ -858,38 +862,7 @@ function toggleAcc(name) {
   if (header) header.classList.toggle('open', open);
 }
 
-// ── LB Builder ──
-function initLbBuilder(couples, existing) {
-  _lbAllCouples = couples;
-  _lbOrder = existing.filter(c => couples.includes(c));
-  renderLbBuilder();
-}
-
-function renderLbBuilder() {
-  const oEl = document.getElementById('lb-ordered');
-  const cEl = document.getElementById('lb-chips');
-  if (!oEl || !cEl) return;
-  oEl.innerHTML = _lbOrder.length
-    ? _lbOrder.map((c,i) => `<div class="lb-order-item">
-        <span class="lb-order-num">#${i+1}</span>
-        <span class="lb-order-name">${esc(c)}</span>
-        <span class="lb-order-remove" onclick="lbRemove(${i})">✕</span>
-      </div>`).join('')
-    : '<div class="lb-hint">Tap a couple below to add to ranking</div>';
-  const ranked = new Set(_lbOrder);
-  cEl.innerHTML = _lbAllCouples.filter(c => !ranked.has(c))
-    .map(c => `<div class="chip" data-couple="${esc(c)}" onclick="lbAddEl(this)">${esc(c)}</div>`)
-    .join('');
-}
-
-function lbAddEl(el) {
-  const c = el.dataset.couple;
-  if (c && !_lbOrder.includes(c)) { _lbOrder.push(c); renderLbBuilder(); }
-}
-
-function lbRemove(idx) { _lbOrder.splice(idx, 1); renderLbBuilder(); }
-
-// ── Admin actions ──
+// Admin actions
 async function adminOpenWeek() {
   const num = parseInt(document.getElementById('a-weeknum')?.value);
   const notes = document.getElementById('a-notes')?.value || '';
@@ -904,14 +877,19 @@ async function adminOpenWeek() {
 
 async function adminSaveResults(weekId) {
   const eliminated = [...document.querySelectorAll('#elim-chips .chip.elim-on')].map(el => el.dataset.couple);
-  const leaderboard = [..._lbOrder];
   const coupleScores = {};
   document.querySelectorAll('.score-inp').forEach(inp => {
     const val = parseFloat(inp.value);
-    if (!isNaN(val) && val > 0 && inp.dataset.couple) coupleScores[inp.dataset.couple] = val;
+    if (!isNaN(val) && inp.dataset.couple) coupleScores[inp.dataset.couple] = val;
   });
-  if (!eliminated.length) { toast('Tap at least one eliminated couple', 'error'); return; }
-  if (!leaderboard.length) { toast('Rank at least a few couples for the leaderboard', 'error'); return; }
+  // Derive leaderboard order from scores (highest first), unscored couples appended alphabetically
+  const scored = Object.entries(coupleScores).sort((a, b) => b[1] - a[1]).map(([c]) => c);
+  const scoredSet = new Set(scored);
+  const unscored = STATE.allCouples.filter(c => !scoredSet.has(c) && !eliminated.includes(c));
+  const leaderboard = [...scored, ...unscored];
+
+  if (!eliminated.length) { toast('Select at least one eliminated couple', 'error'); return; }
+  if (!scored.length) { toast('Enter at least one couple score', 'error'); return; }
   showLoading('Saving results…');
   try {
     await callGAS('adminEnterResults', weekId, { eliminated, leaderboard, coupleScores });
@@ -932,7 +910,7 @@ async function adminPublish(weekId) {
   showLoading('Publishing…');
   try {
     await callGAS('adminPublishResults', weekId);
-    toast('Results published! 🎉', 'success-toast');
+    toast('Results published!', 'success-toast');
     await loadAppState(); await renderAdmin(); hideLoading();
   } catch(e) { hideLoading(); toast(e.message, 'error'); }
 }
@@ -949,7 +927,7 @@ async function adminSetPick(playerName, weekId) {
   } catch(e) { hideLoading(); toast(e.message, 'error'); }
 }
 
-// ── Utilities ──
+// Utilities
 function esc(s) {
   if (s == null) return '';
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
