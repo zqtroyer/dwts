@@ -298,6 +298,9 @@
     <div class="logo">DWTS</div>
     <div style="display:flex; align-items:center; gap:4px;">
       <div class="user-info"><strong id="hdr-name">—</strong><br><span id="hdr-role"></span></div>
+      <button id="btn-refresh" onclick="hardRefresh()" style="background:none;border:1px solid var(--border);color:var(--muted);padding:10px 14px;border-radius:10px;cursor:pointer;font-size:0.82em;margin-left:6px;touch-action:manipulation;min-height:46px;-webkit-tap-highlight-color:transparent;" title="Refresh">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+      </button>
       <button id="btn-logout" onclick="logout()">Out</button>
     </div>
   </div>
@@ -513,6 +516,19 @@ function showApp() {
   if (STATE.user.isAdmin) document.getElementById('nav-admin').classList.remove('hidden');
   showView('picks');
   startCountdown();
+}
+
+async function hardRefresh() {
+  const btn = document.getElementById('btn-refresh');
+  if (btn) btn.style.opacity = '0.4';
+  try {
+    await loadAppState();
+    toast('Refreshed!', 'success-toast');
+  } catch(e) {
+    toast('Refresh failed: ' + e.message, 'error');
+  } finally {
+    if (btn) btn.style.opacity = '';
+  }
 }
 
 function logout() {
