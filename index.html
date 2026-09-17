@@ -737,17 +737,8 @@ function renderStandings() {
   if (!standings.length) { el.innerHTML = '<div class="muted small">No scores yet.</div>'; return; }
   const elim = STATE.eliminatedAll || [];
 
-  // Build a lookup for the most recent week's breakdown per player
-  const weeklyMap = {};
-  if (STATE.weekData && STATE.weekData.weeklyStandings) {
-    for (const ws of STATE.weekData.weeklyStandings) {
-      weeklyMap[ws.name.toLowerCase()] = ws;
-    }
-  }
-
   el.innerHTML = standings.map((s, i) => {
-    const weekly = weeklyMap[s.name.toLowerCase()] || {};
-    const bd = weekly.breakdown || {};
+    const bd = s.cumBreakdown || {};
     const rosterScores = bd.rosterScores || {};
     const roster = s.roster || [];
     const hasScores = Object.keys(rosterScores).length > 0;
