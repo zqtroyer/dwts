@@ -659,7 +659,7 @@ function renderPicks() {
     const r = wd.results;
     html += `<div class="card"><div class="card-title">Week ${week.weekNum} Results</div>
       <div style="margin-bottom:12px;"><span class="small muted">Eliminated: </span>${(r.eliminated||[]).map(c=>`<span class="roster-pill eliminated">${esc(c)}</span>`).join('')}</div>
-      <div style="margin-bottom:10px;"><span class="small muted">Leaderboard #1: </span><span class="lb-1">${esc(r.leaderboard&&r.leaderboard[0]?r.leaderboard[0]:'—')}</span></div>`;
+      <div style="margin-bottom:10px;"><span class="small muted">Leaderboard #1: </span><span class="lb-1">${esc(lbTop(r).join(' / ')||'—')}</span></div>`;
     if (r.leaderboard && r.leaderboard.length > 1) {
       html += `<details><summary class="small muted" style="cursor:pointer;">Full leaderboard (${r.leaderboard.length})</summary>
         <ol style="padding-left:20px; margin-top:8px;">${r.leaderboard.map(c=>`<li class="small" style="padding:3px 0;">${esc(c)}</li>`).join('')}</ol></details>`;
@@ -728,6 +728,15 @@ function updateCountdown(deadline, isLocked) {
   if (diff <= 0) { el.innerHTML = '<span class="deadline-locked">Locked</span>'; return; }
   const h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
   el.innerHTML = `<span class="deadline-open">${h>0?h+'h ':''} ${m}m ${h>0?'':s+'s'} left</span>`;
+}
+
+// All couples tied for leaderboard #1 (same judges' score as the top couple)
+function lbTop(r) {
+  if (!r || !r.leaderboard || !r.leaderboard.length) return [];
+  const sc = r.coupleScores || {};
+  const top = sc[r.leaderboard[0]];
+  if (top === undefined) return [];
+  return r.leaderboard.filter(c => sc[c] === top);
 }
 
 // STANDINGS
@@ -818,7 +827,7 @@ async function renderHistory() {
         <div class="week-history-detail">
           ${myPick ? `
             <div class="brkdwn-row"><span class="brkdwn-key">Elimination guess</span><span>${myElims.map(esc).join(', ')||'—'} ${r&&r.eliminated&&myElims.some(g=>r.eliminated.includes(g))?'<span class="correct">✓</span>':'<span class="incorrect">✗</span>'}</span></div>
-            <div class="brkdwn-row"><span class="brkdwn-key">LB #1 guess</span><span>${esc(myPick.leaderboardGuess||'—')} ${r&&r.leaderboard&&r.leaderboard[0]===myPick.leaderboardGuess?'<span class="correct">✓</span>':'<span class="incorrect">✗</span>'}</span></div>
+            <div class="brkdwn-row"><span class="brkdwn-key">LB #1 guess</span><span>${esc(myPick.leaderboardGuess||'—')} ${lbTop(r).includes(myPick.leaderboardGuess)?'<span class="correct">✓</span>':'<span class="incorrect">✗</span>'}</span></div>
           ` : '<div class="muted small">No pick submitted</div>'}
           <div style="margin-top:12px;border-top:1px solid var(--border);padding-top:12px;">
             ${bd.baseScoring>0?`<div class="brkdwn-row"><span class="brkdwn-key">Judges' points</span><span class="brkdwn-val pos">+${bd.baseScoring}</span></div>`:''}
@@ -828,7 +837,7 @@ async function renderHistory() {
             ${bd.lbGuess>0?`<div class="brkdwn-row"><span class="brkdwn-key">LB pick bonus</span><span class="brkdwn-val pos">+${bd.lbGuess}</span></div>`:''}
             <div class="brkdwn-row bold" style="margin-top:6px;"><span>Total</span><span class="accent">${pts} pts</span></div>
           </div>
-          ${r?`<div style="margin-top:12px;" class="small muted"><div>Eliminated: ${(r.eliminated||[]).join(', ')||'—'}</div><div>LB #1: ${r.leaderboard&&r.leaderboard[0]?r.leaderboard[0]:'—'}</div></div>`:''}
+          ${r?`<div style="margin-top:12px;" class="small muted"><div>Eliminated: ${(r.eliminated||[]).join(', ')||'—'}</div><div>LB #1: ${esc(lbTop(r).join(' / ')||'—')}</div></div>`:''}
         </div>
       </div>`;
     }
@@ -1024,10 +1033,14 @@ async function adminSaveResults(weekId) {
   const scored = Object.entries(coupleScores).sort((a, b) => b[1] - a[1]).map(([c]) => c);
   const scoredSet = new Set(scored);
   const unscored = STATE.allCouples.filter(c => !scoredSet.has(c) && !eliminated.includes(c));
-  const leaderboard = [...scored, ...unscored];
+  // No scores entered (e.g. no-elimination week) → empty leaderboard so nobody gets LB points
+  const leaderboard = scored.length ? [...scored, ...unscored] : [];
 
-  if (!eliminated.length) { toast('Select at least one eliminated couple', 'error'); return; }
-  if (!scored.length) { toast('Enter at least one couple score', 'error'); return; }
+  if (!eliminated.length && !scored.length) {
+    if (!confirm('No eliminations and no scores. Save this as an empty week (everyone scores 0)?')) return;
+  } else if (!eliminated.length) {
+    if (!confirm('No eliminated couple selected. Save as a no-elimination week?')) return;
+  }
   showLoading('Saving results…');
   try {
     await callGAS('adminEnterResults', weekId, { eliminated, survivingCouples, leaderboard, coupleScores });
